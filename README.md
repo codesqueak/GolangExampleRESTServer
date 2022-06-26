@@ -48,3 +48,6 @@ go get -u github.com/gorilla/mux
 ```
 swagger generate spec -o ./swagger.yaml --scan-models
 ```
+## Coffee
+
+If you find this project useful, you may want to [__Buy me a Coffee!__ :coffee:](https://www.buymeacoffee.com/codesqueak) Thanks :thumbsup:
