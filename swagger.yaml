@@ -1,0 +1,263 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  ErrorResponse:
+    properties:
+      error:
+        type: string
+        x-go-name: Error
+    type: object
+    x-go-package: restServer/model
+  Key:
+    properties:
+      key:
+        format: uuid
+        type: string
+        x-go-name: Key
+    type: object
+    x-go-package: restServer/model
+  User:
+    properties:
+      password:
+        type: string
+        x-go-name: Password
+      username:
+        type: string
+        x-go-name: Username
+    type: object
+    x-go-package: restServer/model
+  Users:
+    properties:
+      users:
+        additionalProperties:
+          $ref: '#/definitions/User'
+        type: object
+        x-go-name: UserMap
+    type: object
+    x-go-name: AllUsers
+    x-go-package: restServer/model
+host: localhost:8090
+info:
+  description: Documentation of the User-API.
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+  version: v1.0.0
+paths:
+  /adduser:
+    post:
+      description: |-
+        consumes
+        application/json
+
+        produces
+        application/json
+      operationId: addUser
+      parameters:
+      - description: New user data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+          description: New user data
+          type: object
+      responses:
+        "200":
+          description: Unique identifier for the user (UUID)
+          schema:
+            $ref: '#/definitions/Key'
+        "400":
+          description: Response error message
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      schemes:
+      - http
+      summary: Add a user
+      tags:
+      - User-API
+  /adduser/{uuid}:
+    put:
+      description: |-
+        consumes
+        application/json
+
+        produces
+        application/json
+      operationId: addUser
+      parameters:
+      - description: uuid allocated to the user record
+        format: uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      - description: New user data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+          description: New user data
+          type: object
+      responses:
+        "200":
+          description: Unique identifier for the user (UUID)
+          schema:
+            $ref: '#/definitions/Key'
+        "400":
+          description: Response error message
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      schemes:
+      - http
+      summary: Add a user
+      tags:
+      - User-API
+  /getuser:
+    get:
+      description: |-
+        produces
+        application/json
+      operationId: getUser
+      parameters:
+      - description: uuid allocated to the user record
+        format: uuid
+        in: query
+        name: uuid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Users record
+          schema:
+            $ref: '#/definitions/User'
+        "400":
+          description: Response error message
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: No corresponding user
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      schemes:
+      - http
+      summary: Get a user
+      tags:
+      - User-API
+  /getuser/{uuid}:
+    get:
+      description: |-
+        produces
+        application/json
+      operationId: getUser
+      parameters:
+      - description: uuid allocated to the user record
+        format: uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Users record
+          schema:
+            $ref: '#/definitions/User'
+        "400":
+          description: Response error message
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        "404":
+          description: No corresponding user
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      schemes:
+      - http
+      summary: Get a user
+      tags:
+      - User-API
+  /getusers:
+    get:
+      description: |-
+        produces
+        application/json
+      operationId: getUser
+      responses:
+        "200":
+          description: All user records
+          schema:
+            $ref: '#/definitions/Users'
+        "400":
+          description: Response error message
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      schemes:
+      - http
+      summary: Get all user
+      tags:
+      - User-API
+    head:
+      description: |-
+        produces
+        application/json
+      operationId: getUser
+      responses:
+        "200":
+          $ref: '#/responses/String'
+          description: Body will be empty
+        "400":
+          description: Response error message
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      schemes:
+      - http
+      summary: Get all user
+      tags:
+      - User-API
+  /updateuser/{uuid}:
+    patch:
+      description: |-
+        consumes
+        application/json
+
+        produces
+        application/json
+      operationId: updateUser
+      parameters:
+      - description: uuid allocated to the user record
+        format: uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      - description: New user data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+          description: New user data
+          type: object
+      responses:
+        "200":
+          description: Unique identifier for the user (UUID)
+          schema:
+            $ref: '#/definitions/Key'
+        "400":
+          description: Response error message
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      schemes:
+      - http
+      summary: Add a user
+      tags:
+      - User-API
+produces:
+- application/json
+schemes:
+- http
+securityDefinitions:
+  basic:
+    type: basic
+swagger: "2.0"
