@@ -33,15 +33,15 @@ func main() {
 		WriteTimeout: 5 * time.Second,
 	}
 	// add the stuff we want to serve
-	addRoutes(router)
-	addSwaggerSupport(router)
+	addRoutes(router)         // route to our handlers
+	addSwaggerSupport(router) // gives the swagger ui
 	// start
 	go server()
 	// ... and give us a way to stop it
-	shutdown := make(chan os.Signal, 1)
-	signal.Notify(shutdown, os.Interrupt, syscall.SIGINT, syscall.SIGTERM) // os signals
-	log.Print("Server Started on port", model.Port)
-	<-shutdown
+	shutdownChannel := make(chan os.Signal, 1)
+	signal.Notify(shutdownChannel, os.Interrupt, syscall.SIGINT, syscall.SIGTERM) // os signals
+	log.Print("Server Started on Port", model.Port)
+	<-shutdownChannel
 	log.Print("Server Stopped")
 }
 
@@ -49,11 +49,12 @@ func main() {
 func addRoutes(router *mux.Router) {
 	router.HandleFunc("/adduser", handlers.AddUserPostHandler).Methods(http.MethodPost)                // keep adding users
 	router.HandleFunc("/adduser/{uuid}", handlers.AddUserPutHandler).Methods(http.MethodPut)           // add a specific user
-	router.HandleFunc("/getuser", handlers.GetUserWithQueryValueHandler).Methods(http.MethodGet)       // get a user
-	router.HandleFunc("/getuser/{uuid}", handlers.GetUserArgInURLHandler).Methods(http.MethodGet)      // get a user
-	router.HandleFunc("/getusers", handlers.GetAllUsersHandler).Methods(http.MethodGet)                // get a user
-	router.HandleFunc("/getusers", handlers.GetAllUsersHeadHandler).Methods(http.MethodHead)           // get a user
+	router.HandleFunc("/getuser", handlers.GetUserWithQueryValueHandler).Methods(http.MethodGet)       // get a user with parameter query
+	router.HandleFunc("/getuser/{uuid}", handlers.GetUserArgInURLHandler).Methods(http.MethodGet)      // get a user with url parameter
+	router.HandleFunc("/getusers", handlers.GetAllUsersHandler).Methods(http.MethodGet)                // get all user
+	router.HandleFunc("/getusers", handlers.GetAllUsersHeadHandler).Methods(http.MethodHead)           // get all user but just return eTag
 	router.HandleFunc("/updateuser/{uuid}", handlers.UpdateUserPatchHandler).Methods(http.MethodPatch) // update user data
+	router.HandleFunc("/users", handlers.OptionsHandler).Methods(http.MethodOptions)                   // get available
 	// fallback
 	router.HandleFunc("/", handlers.DefaultHandler)
 }

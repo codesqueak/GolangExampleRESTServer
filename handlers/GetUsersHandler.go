@@ -17,6 +17,6 @@ import (
 //  400: ErrorResponse Response error message
 //  200: Users All user records
 //
-func GetAllUsersHandler(w http.ResponseWriter, r *http.Request) {
+func GetAllUsersHandler(w http.ResponseWriter, _ *http.Request) {
 	writeJSONValue(w, model.AllUsers{model.Users})
 }

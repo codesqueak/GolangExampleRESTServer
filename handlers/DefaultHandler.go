@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/go-http-utils/headers"
 	"hash/fnv"
 	"log"
 	"net/http"
@@ -19,7 +20,7 @@ func DefaultHandler(w http.ResponseWriter, r *http.Request) {
 		"<p><a href =\"http://localhost" + model.Port + "/docs\">Link to Swagger</a></p>" +
 		"<p><a href =\"http://localhost" + model.Port + "/swagger.yaml\">Link to YAML</a></p>" +
 		`</body>`
-	fmt.Fprintf(w, "%s", Body)
+	_, _ = fmt.Fprintf(w, "%s", Body)
 }
 
 func writeJSONValue(w http.ResponseWriter, v any) {
@@ -33,8 +34,8 @@ func writeJSONValueHeadersOnly(w http.ResponseWriter, v any) {
 func writeJSONValueWithCode(w http.ResponseWriter, v any, code int, headersOnly bool) {
 	jsonStr, err := json.Marshal(v)
 	if err == nil {
-		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		w.Header().Set("ETag", hash(jsonStr))
+		w.Header().Set(headers.ContentType, "application/json; charset=utf-8")
+		w.Header().Set(headers.ETag, hash(jsonStr))
 		w.WriteHeader(code)
 		if !headersOnly {
 			_, err := fmt.Fprint(w, string(jsonStr))
