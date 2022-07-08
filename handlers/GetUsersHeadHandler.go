@@ -17,6 +17,6 @@ import (
 //  400: ErrorResponse Response error message
 //  200: String Body will be empty
 //
-func GetAllUsersHeadHandler(w http.ResponseWriter, r *http.Request) {
+func GetAllUsersHeadHandler(w http.ResponseWriter, _ *http.Request) {
 	writeJSONValueHeadersOnly(w, model.AllUsers{model.Users})
 }

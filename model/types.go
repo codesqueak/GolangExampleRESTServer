@@ -24,3 +24,6 @@ type Key struct {
 type ErrorResponse struct {
 	Error string `json:"error"`
 }
+
+// swagger:model String
+type _ string

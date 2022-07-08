@@ -17,6 +17,10 @@ definitions:
         x-go-name: Key
     type: object
     x-go-package: restServer/model
+  String:
+    type: string
+    x-go-name: _
+    x-go-package: restServer/model
   User:
     properties:
       password:
@@ -204,8 +208,9 @@ paths:
       operationId: getUser
       responses:
         "200":
-          $ref: '#/responses/String'
           description: Body will be empty
+          schema:
+            $ref: '#/definitions/String'
         "400":
           description: Response error message
           schema:
@@ -251,6 +256,22 @@ paths:
       schemes:
       - http
       summary: Add a user
+      tags:
+      - User-API
+  /users:
+    options:
+      description: |-
+        produces
+        application/json
+      operationId: getUser
+      responses:
+        "200":
+          description: Body will be empty
+          schema:
+            $ref: '#/definitions/String'
+      schemes:
+      - http
+      summary: Get available server OPTION information
       tags:
       - User-API
 produces:

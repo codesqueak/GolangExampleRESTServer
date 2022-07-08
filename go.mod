@@ -3,6 +3,7 @@ module restServer
 go 1.18
 
 require (
+	github.com/go-http-utils/headers v0.0.0-20181008091004-fed159eddc2a
 	github.com/go-openapi/runtime v0.24.1
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
